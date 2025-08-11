@@ -6,21 +6,12 @@ interface ReadingInterfaceProps {
   onNavigate: (page: string) => void;
 }
 
-interface AIResponse {
-  type: 'text' | 'image';
-  content: string;
-  timestamp: Date;
-}
-
 const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate }) => {
   const [mode, setMode] = useState<'dual' | 'triple'>('dual');
   const [currentPage, setCurrentPage] = useState(1);
   const [scale, setScale] = useState(1.5);
   const [searchText, setSearchText] = useState('');
   const [selectedText, setSelectedText] = useState('');
-  const [aiMessages, setAiMessages] = useState<AIResponse[]>([]);
-  const [aiInput, setAiInput] = useState('');
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [syncScroll, setSyncScroll] = useState(true);
   const [pdfDoc, setPdfDoc] = useState<any>(null);
@@ -211,42 +202,36 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
     }
   };
 
-  // AI助手功能
-  const handleSendToAI = () => {
-    if (!aiInput.trim()) return;
-    
-    const newMessage: AIResponse = {
-      type: 'text',
-      content: aiInput,
-      timestamp: new Date()
-    };
-    
-    setAiMessages(prev => [...prev, newMessage]);
-    setAiInput('');
-    
-    // 模拟AI响应
-    setTimeout(() => {
-      const aiResponse: AIResponse = {
-        type: 'text',
-        content: `根据《民国烹饪一斑》第${currentPage}页的内容，${aiInput}的相关信息如下：这道菜在民国时期是京城聚丰堂的招牌菜，采用传统工艺制作，体现了宫廷烹饪的精髓。`,
-        timestamp: new Date()
-      };
-      setAiMessages(prev => [...prev, aiResponse]);
-    }, 1000);
+  // 切换AI助手显示模式
+  const toggleAIAssistant = () => {
+    if (mode === 'dual') {
+      setMode('triple');
+      loadDifyInPanel();
+    } else {
+      setMode('dual');
+    }
   };
 
-  const handleGenerateImage = () => {
-    setIsGeneratingImage(true);
-    
+  // 在三分屏右侧加载Dify聊天机器人
+  const loadDifyInPanel = () => {
     setTimeout(() => {
-      const newImage: AIResponse = {
-        type: 'image',
-        content: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg',
-        timestamp: new Date()
-      };
-      setAiMessages(prev => [...prev, newImage]);
-      setIsGeneratingImage(false);
-    }, 3000);
+      const aiContainer = document.getElementById('ai-chat-container');
+      if (!aiContainer) return;
+
+      // 如果已经加载iframe，直接返回
+      if (aiContainer.querySelector('iframe')) return;
+
+      // 创建iframe加载Dify聊天界面
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://udify.app/chatbot/f4q7tp0OTSNvOxr2`;
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      iframe.style.borderRadius = '8px';
+      iframe.allow = 'microphone';
+      
+      aiContainer.appendChild(iframe);
+    }, 100);
   };
 
   // 键盘快捷键
@@ -277,15 +262,24 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
           e.preventDefault();
           setCurrentPage(totalPages);
           break;
-        case 'Escape':
-          if (mode === 'triple') setMode('dual');
-          break;
+
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [mode, totalPages]);
+
+  // 当页面变化时更新Dify配置
+  useEffect(() => {
+    if ((window as any).difyChatbotConfig) {
+      (window as any).difyChatbotConfig.systemVariables = {
+        book_context: `《民国烹饪一斑》第${currentPage}页`,
+        book_title: '民国烹饪一斑',
+        current_page: currentPage.toString()
+      };
+    }
+  }, [currentPage]);
 
   return (
     <div className="h-screen bg-gray-100 flex flex-col">
@@ -304,15 +298,15 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
 
         <div className="flex items-center space-x-4">
           <button
-            onClick={() => setMode(mode === 'dual' ? 'triple' : 'dual')}
+            onClick={toggleAIAssistant}
             className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-              mode === 'triple'
-                ? 'bg-red-600 text-white'
+              mode === 'triple' 
+                ? 'bg-green-500 text-white hover:bg-green-600' 
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
             <MessageCircle className="h-4 w-4 inline mr-1" />
-            AI助手
+            {mode === 'triple' ? '关闭AI助手' : 'AI助手'}
           </button>
           <button
             onClick={() => setShowSettings(!showSettings)}
@@ -498,15 +492,15 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
       {/* 三分屏模式 */}
       {!loading && mode === 'triple' && (
         <div className="flex-1 flex overflow-hidden">
-          {/* 左侧 - 原始竖版繁体字 */}
-          <div className="flex-1 bg-white border-r overflow-hidden flex flex-col">
-            <div className="px-4 py-2 border-b bg-gray-50 shrink-0">
+          {/* 原始文献区域 */}
+          <div className="w-1/3 bg-white border-r overflow-hidden flex flex-col">
+            <div className="bg-gray-50 px-4 py-2 border-b shrink-0">
               <h3 className="text-sm font-medium text-gray-700">原始文献（竖版繁体）</h3>
             </div>
             <div 
               ref={originalRef}
               onScroll={handleOriginalScroll}
-              className="flex-1 p-6 overflow-y-auto bg-gray-50 flex items-center justify-center min-h-0"
+              className="flex-1 p-4 overflow-y-auto bg-gray-50 flex items-center justify-center min-h-0"
             >
               {pdfDoc ? (
                 <canvas 
@@ -519,8 +513,8 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
                   }}
                 />
               ) : (
-                <div className="max-w-2xl mx-auto">
-                  <pre className="text-sm leading-relaxed font-serif whitespace-pre-wrap">
+                <div className="max-w-full mx-auto">
+                  <pre className="text-xs leading-relaxed font-serif whitespace-pre-wrap">
                     {originalPages[currentPage - 1]}
                   </pre>
                 </div>
@@ -528,8 +522,8 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
             </div>
           </div>
 
-          {/* 中间 - OCR文本 */}
-          <div className="flex-1 bg-white border-r overflow-hidden flex flex-col">
+          {/* OCR文本区域 */}
+          <div className="w-1/3 bg-white border-r overflow-hidden flex flex-col">
             <div className="bg-gray-50 px-4 py-2 border-b flex items-center justify-between shrink-0">
               <h3 className="text-sm font-medium text-gray-700">现代文本（简体横排）</h3>
               <div className="flex items-center space-x-2">
@@ -545,89 +539,33 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
             <div 
               ref={ocrRef}
               onScroll={handleOcrScroll}
-              className="flex-1 p-6 overflow-y-auto min-h-0"
+              className="flex-1 p-4 overflow-y-auto min-h-0"
             >
-              <div className="max-w-2xl mx-auto">
-                <pre className="text-sm leading-relaxed whitespace-pre-wrap">
+              <div className="max-w-full mx-auto">
+                <pre className="text-xs leading-relaxed whitespace-pre-wrap">
                   {ocrPages[currentPage - 1]}
                 </pre>
               </div>
             </div>
           </div>
 
-          {/* 右侧 - AI助手 */}
-          <div className="w-96 bg-white flex flex-col border-l">
-            <div className="px-4 py-3 border-b bg-gray-50 flex items-center justify-between">
-              <h3 className="font-medium text-gray-900">AI助手</h3>
-              <button
-                onClick={() => setMode('dual')}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X className="h-4 w-4" />
-              </button>
+          {/* AI助手区域 */}
+          <div className="w-1/3 bg-white overflow-hidden flex flex-col">
+            <div className="bg-gray-50 px-4 py-2 border-b flex items-center justify-between shrink-0">
+              <h3 className="text-sm font-medium text-gray-700">AI助手</h3>
+              <div className="text-xs text-gray-500">
+                第{currentPage}页
+              </div>
             </div>
-
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {aiMessages.length === 0 && (
-                <div className="text-center text-gray-500 py-8">
-                  <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                  <p className="text-sm">向AI助手提问关于这本书的任何问题</p>
+            <div 
+              id="ai-chat-container"
+              className="flex-1 p-2 overflow-hidden min-h-0"
+            >
+              <div className="h-full flex items-center justify-center text-gray-400">
+                <div className="text-center">
+                  <MessageCircle className="h-8 w-8 mx-auto mb-2" />
+                  <p className="text-sm">正在加载AI助手...</p>
                 </div>
-              )}
-
-              {aiMessages.map((message, index) => (
-                <div key={index} className={`space-y-2 ${message.type === 'text' ? '' : ''}`}>
-                  {message.type === 'text' ? (
-                    <div className="bg-gray-100 rounded-lg p-3 text-sm">
-                      {message.content}
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      <img
-                        src={message.content}
-                        alt="AI生成的图像"
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
-                      <p className="text-xs text-gray-500">AI根据文本生成的民国风味图像</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-
-              {isGeneratingImage && (
-                <div className="bg-gray-100 rounded-lg p-4 text-center">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-red-600 mx-auto mb-2"></div>
-                  <p className="text-sm text-gray-600">正在生成图像...</p>
-                </div>
-              )}
-            </div>
-
-            <div className="border-t p-4">
-              <div className="space-y-2">
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    placeholder="询问关于这本书的问题..."
-                    value={aiInput}
-                    onChange={(e) => setAiInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendToAI()}
-                    className="flex-1 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-                  />
-                  <button
-                    onClick={handleSendToAI}
-                    className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700"
-                  >
-                    发送
-                  </button>
-                </div>
-                <button
-                  onClick={handleGenerateImage}
-                  disabled={isGeneratingImage}
-                  className="w-full px-3 py-2 bg-gray-600 text-white rounded-lg text-sm hover:bg-gray-700 disabled:opacity-50"
-                >
-                  <ImageIcon className="h-4 w-4 inline mr-1" />
-                  生成相关图像
-                </button>
               </div>
             </div>
           </div>
@@ -637,34 +575,33 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
       {/* 设置面板 */}
       {showSettings && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96">
-            <h3 className="text-lg font-semibold mb-4">阅读设置</h3>
-            <div className="space-y-4">
-              <label className="flex items-center justify-between">
-                <span className="text-sm">同步滚动</span>
-                <input
-                  type="checkbox"
-                  checked={syncScroll}
-                  onChange={(e) => setSyncScroll(e.target.checked)}
-                  className="rounded"
-                />
-              </label>
-              <label className="flex items-center justify-between">
-                <span className="text-sm">显示页码</span>
-                <input type="checkbox" defaultChecked className="rounded" />
-              </label>
-              <label className="flex items-center justify-between">
-                <span className="text-sm">夜间模式</span>
-                <input type="checkbox" className="rounded" />
-              </label>
-            </div>
-            <div className="mt-6 flex justify-end">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">设置</h3>
               <button
                 onClick={() => setShowSettings(false)}
-                className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+                className="text-gray-400 hover:text-gray-600"
               >
-                关闭
+                <X className="h-5 w-5" />
               </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-gray-700">同步滚动</label>
+                <button
+                  onClick={() => setSyncScroll(!syncScroll)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    syncScroll ? 'bg-blue-600' : 'bg-gray-200'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      syncScroll ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
             </div>
           </div>
         </div>

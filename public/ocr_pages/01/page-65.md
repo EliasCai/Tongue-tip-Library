@@ -1,2 +1,9 @@
-
-<div style="text-align: center;"><html><body><table border="1"><tbody><tr><td>牡蛤烏鲤鰻牛牛</td><td colspan="2">·10 魚魚魚魚酪乳</td><td></td><td>三·KO</td><td>川·P0</td><td>四·九0</td><td>0·40</td></tr><tr><td colspan="2"></td><td colspan="2">10.00</td><td>1.00</td><td>八七·七0</td><td>0·110</td><td>1.00</td></tr><tr><td colspan="2"></td><td>六九·二0</td><td>1·10</td><td>11·10</td><td></td><td></td><td>1·110 1.K0</td></tr><tr><td colspan="2"></td><td colspan="2">七·三</td><td>·四</td><td>11·40</td><td></td><td></td></tr><tr><td colspan="2"></td><td colspan="2">PP-00</td><td>1八·四0</td><td>1.20</td><td></td><td></td></tr><tr><td colspan="2">1196</td><td colspan="2">七0.九0</td><td>一八·九0</td><td>0.50</td><td></td><td></td></tr><tr><td colspan="4">賊 七九</td><td>1九·10</td><td>0.KO</td><td></td><td></td></tr><tr><td colspan="2"></td><td colspan="2">八四·10</td><td>1川·110</td><td>0.K0</td><td></td><td>1·九0</td></tr><tr><td colspan="2">蠣</td><td>20.00</td><td>八·五</td><td>0.0</td><td></td><td></td><td>C·KO</td></tr><tr><td></td><td>1196 民國72年7 </td><td colspan="2">14241 083.7 113 號</td><td colspan="4">（完）</td></tr></tbody></table></body></html></div>
+牡蛎 蛤蜊 乌鲤 鲤鱼 鲶鱼 鳝鱼 牛 牛乳  
+    
+    ９０．００ ８４．１０ ７６．９０ ７０．９０ ７７．３０ ６９．２０ １０．００ ８７．１０  
+　８．５０ １３．１０ １９．１０ １８．９０ １８．４０ １８．４０ １８．１０ １．００ ３．６０  
+　０．９０ ０．８０ ０．６０ ０．８０ １．４０ １１．７０ ８７．７０ ３．７０  
+    
+    ２０．００ ８．５０ ０．００ ０．３０ ４．９０  
+    
+    １１９６ 民国７２年７月 １４２４１ ０８３．７ １１３号（完）

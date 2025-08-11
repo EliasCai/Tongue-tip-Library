@@ -1,4 +1,14 @@
-## 第八章日用食品成分分析表
+第八章 日用食品成分分析表
 
-
-<div style="text-align: center;"><html><body><table border="1"><tbody><tr><td>腐皮</td><td>三八五</td><td>五一·六</td><td>1五六二</td><td>六六五</td><td>0.四大</td><td>二二</td></tr><tr><td></td><td>1四·110</td><td>三四0</td><td>11-00</td><td>五二五</td><td>六四0</td><td>11·20</td></tr><tr><td></td><td>五一三</td><td>七·九</td><td>一四五</td><td>四七七三</td><td>五三1</td><td>川110</td></tr><tr><td>豆豆豆</td><td>一七·五0</td><td>110-1110</td><td>1·10</td><td>110</td><td>四五0</td><td>川·0</td></tr><tr><td></td><td>元</td><td>三</td><td>001九</td><td>元老</td><td>二四八</td><td>0·</td></tr><tr><td>鈴薯</td><td>七六八0</td><td>1010</td><td>0.10</td><td>1九-110</td><td>10四0</td><td>1.00</td></tr><tr><td></td><td>1·110</td><td>11·00</td><td>0-110</td><td>110</td><td>00</td><td>0.K0</td></tr><tr><td></td><td>充元</td><td>四七</td><td>0·110</td><td>西</td><td>0·四五</td><td>一·</td></tr><tr><td></td><td>九四·六0</td><td>C·4O</td><td>甚少</td><td>川·40</td><td>H0</td><td>0.H0</td></tr><tr><td>萄青萄姑</td><td>九阳·00</td><td>10K0</td><td>0.10</td><td>10</td><td>-0.40</td><td>0K0</td></tr><tr><td></td><td>八九·00</td><td>1·110</td><td>0.20</td><td>七四0</td><td>1·10 口</td><td>0.)</td></tr><tr><td>劳 牛</td><td>1O.HO</td><td>10E0</td><td>0010</td><td>·110</td><td>11·110</td><td>0·KO</td></tr></tbody></table></body></html></div>
+腐皮  385  51.6  1562  665  0.40  22
+     14.110  340  11-00  525  640  11.20
+     513  7.9  145  4773  531  川110
+豆豆豆  17.50  110-1110  1.10  110  450  川·0
+     元  三  001九  元老  248  0.
+鈴薯  7680  1010  0.10  19-110  1040  1.00
+     1·110  11.00  0-110  110  00  0.K0
+     充元  四七  0·110  西  0.45  一·
+     九四·六0  C·4O  甚少  川·40  H0  0.H0
+萄青萄姑  九阳·00  10K0  0.10  10  -0.40  0K0
+     八九·00  1·110  0.20  740  1·10 口  0.)
+劳 牛  1O.HO  10E0  0010  ·110  11·110  0·KO

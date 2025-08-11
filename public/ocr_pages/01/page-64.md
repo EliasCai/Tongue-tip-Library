@@ -1,2 +1,13 @@
+第八章 日用食品成分分析表
 
-<div style="text-align: center;"><html><body><table border="1"><tbody><tr><td>牛</td><td>P1-00</td><td>一九九0</td><td>七·七0</td><td>0.30</td><td></td><td>1.00 </td></tr><tr><td></td><td>四七五0</td><td>一四·五0</td><td>三七·川</td><td></td><td></td><td>C·4O</td></tr><tr><td></td><td>七三·六0</td><td>二四·五0</td><td></td><td>1.<0</td><td></td><td>1·50</td></tr><tr><td></td><td>1-1110</td><td>元八九</td><td>4.四0</td><td>C·10</td><td></td><td>1·0</td></tr><tr><td></td><td>五四0</td><td>1六·KO</td><td>元六</td><td>0.H0</td><td></td><td>0.R0</td></tr><tr><td></td><td>10-10</td><td>一八五0</td><td>九·0</td><td>1-110</td><td></td><td>0.0</td></tr><tr><td></td><td>元·00</td><td>1五九0</td><td>四五大0</td><td></td><td></td><td>0010</td></tr><tr><td></td><td>七0.0</td><td>三·七0</td><td>川·10</td><td>川</td><td></td><td>1·10</td></tr><tr><td>蛋肉肉肉肉肉肉肉肉肉</td><td>·10</td><td>·10</td><td>1-00</td><td>0-40</td><td></td><td>1·10</td></tr><tr><td>福</td><td>七三七0</td><td>11-KO</td><td>111·10</td><td>C·KO</td><td></td><td>1.00</td></tr><tr><td>白 惠</td><td>八五·四0</td><td>11·九0</td><td>0110</td><td>000</td><td></td><td>0-K0</td></tr><tr><td></td><td>五1·00</td><td>1K·10</td><td>三·四0</td><td>CH</td><td></td><td>1.00</td></tr></tbody></table></body></html></div>
+食品 鸡蛋黄 鸡蛋白 鸠肉 鸭肉 鹅肉 鸡肉 羊肉 犢肉 马肉 豕肉 牛肉
+
+成分一 五一·00 八五·四0 七三·七0 七五·一0 七0·八0 三六·00 七0·一0 五三·四0 七三·三0 七三·六0 四七·五0 七一·00
+
+成分二 一六·一0 一三·九0 一三·六0 一三·一0 一三·七0 一五·九0 一八·五0 一六·六0 一八·九0 一四·五0 一四·五0 一九·九0
+
+成分三 三一·四0 0·三0 一一·一0 1·00 一一·10 四五·六0 九·三0 二六·六0 七·四0 — 三七·三0 七·七0
+
+成分四 0·五 0·八0 0·六0 0·七0 0·三0 一·一0 0·五0 0·一0 1·八0 — 0·四0
+
+成分五 1·00 0·六0 1·00 1·10 0·五0 0·九0 0·九0 1·三0 1·八0 0·七0 1·00
