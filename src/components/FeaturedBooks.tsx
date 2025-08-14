@@ -20,7 +20,7 @@ const FeaturedBooks: React.FC<FeaturedBooksProps> = ({ onNavigate }) => {
               <div key={book.id} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
                 <div className="aspect-[3/4] bg-gray-200 rounded-lg mb-4 overflow-hidden">
                   <img 
-                    src={book.coverImage} 
+                    src={book.id === '1' ? '/book_covers/01.jpeg' : book.id === '2' ? '/book_covers/02.jpeg' : book.coverImage}
                     alt={`${book.title}封面`} 
                     className="w-full h-full object-cover"
                   />

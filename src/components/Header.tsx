@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Map, Users, Search } from 'lucide-react';
+import { BookOpen, Map, Users, Search, ChefHat } from 'lucide-react';
 
 interface HeaderProps {
   currentPage: string;
@@ -54,6 +54,18 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             >
               <Map className="h-5 w-5" />
               <span>食光地图</span>
+            </button>
+            
+            <button
+              onClick={() => onNavigate('recipes')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                currentPage === 'recipes'
+                  ? 'bg-red-700 text-white'
+                  : 'text-red-200 hover:text-white hover:bg-red-700'
+              }`}
+            >
+              <ChefHat className="h-5 w-5" />
+              <span>寻味菜谱</span>
             </button>
             
             <button

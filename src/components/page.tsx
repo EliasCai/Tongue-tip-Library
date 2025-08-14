@@ -169,7 +169,7 @@ export default function BookDetailPage({ bookId, onNavigate }: BookDetailPagePro
           <div className="lg:col-span-1 space-y-6">
             <div className="bg-white rounded-lg shadow-md p-6">
               <img
-                src={book.cover || "/placeholder.svg"}
+                src="/book_covers/01.jpeg"
                 alt={book.title}
                 className="w-full h-80 object-cover rounded-md mb-4"
               />

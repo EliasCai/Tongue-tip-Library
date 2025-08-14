@@ -3,11 +3,18 @@ export interface Recipe {
   name: string;
   description: string;
   ingredients: string[];
-  method: string;
+  steps?: string[];
+  method?: string | string[];
   source: string;
-  era: string;
+  era: string | number;
   region: string;
+  cuisine?: string;
+  difficulty?: string;
+  prepTime?: string;
+  servings?: number;
   imageUrl?: string;
+  views?: number;
+  createdAt?: string;
 }
 
 export interface FoodEntity {

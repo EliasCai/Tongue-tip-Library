@@ -1,12 +1,14 @@
 import React from 'react';
 import { Sparkles, BookOpen, Map, Users, Camera } from 'lucide-react';
 import { mockRecipes } from '../data/mockData';
+import { Recipe } from '../types';
 
 interface HomepageProps {
   onNavigate: (page: string) => void;
 }
 
 const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50">
       {/* Hero Section */}
@@ -102,7 +104,10 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
                   <div className="text-sm text-gray-500">
                     <span>{recipe.source}</span> • <span>{recipe.era}</span>
                   </div>
-                  <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-200">
+                  <button 
+                    onClick={() => onNavigate(`recipe-detail/${recipe.id}`)}
+                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-200"
+                  >
                     查看详情
                   </button>
                 </div>
@@ -111,6 +116,8 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+
 
       {/* CTA Section */}
       <section className="py-16 px-4 bg-yellow-600">
