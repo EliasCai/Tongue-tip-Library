@@ -39,6 +39,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
               >
                 探索食光地图
               </button>
+
             </div>
           </div>
         </div>

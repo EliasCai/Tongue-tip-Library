@@ -42,6 +42,44 @@ const bookData: Record<string, any> = {
       },
     ],
   },
+  'family-cookbook': {
+      title: "家庭食谱烹调法",
+      author: "李于明",
+      year: "1935",
+      cover: "public/book_covers/02.jpeg",
+    category: "家常菜系 · 家庭烹饪指南",
+    publisher: "大新书店",
+    pages: "312页",
+    description: "系统化梳理家庭日常烹饪技法，涵盖主食、荤素菜肴、汤品、点心等七大类，兼具操作指导与饮食健康理念，是民国时期家庭主妇的必备烹饪宝典。",
+    interpretation: {
+      background:
+        "成书于20世纪30年代，正值中国近代家庭生活变革期。作者李于明为知名家政教育学者，主张'科学烹饪'与'家庭营养'，反映当时新式家庭对健康饮食的追求。",
+      content:
+        "结构创新：首创'编-类-谱'三级体系，从理论（食材选择、卫生贮藏）到实践（326道家常菜谱）逻辑清晰。文化融合：既保留江浙菜系的精致（如八宝豆腐、醉蟹），又融入北方面食技法（炸酱面、油酥饺），体现南北饮食交融。女性视角：特设'女子与烹饪'章节，强调主妇技能对家庭健康的核心作用，具有时代社会学意义。",
+      cultural:
+        "书中'经济性'原则（边角料利用、贮藏法）与当代可持续饮食理念高度契合；对豆腐、杂粮的创意烹调（素火腿、菜饭），为现代素食开发提供灵感。",
+      influence:
+        "该书是研究民国时期家庭饮食文化的重要文献，对现代家庭烹饪教育仍有重要参考价值。",
+    },
+    rating: 4.7,
+    reviews: [
+      {
+        user: "主妇实践派",
+        rating: 5,
+        comment: "照着做红烧肉和酒酿圆子零失败！'火候口诀'和'食材替代方案'特别实用，厨房小白也能进阶。",
+      },
+      {
+        user: "饮食文化研究者",
+        rating: 4.5,
+        comment: "对比《随园食单》的文人雅趣，此书更贴近平民餐桌。'食物贮藏法'章节是研究民国民生的重要史料。",
+      },
+      {
+        user: "传统味道追寻者",
+        rating: 4.8,
+        comment: "复刻了失传的禾花雀做法，祖母尝后直呼是童年味道！建议搭配地方志阅读，理解菜谱背后的风物变迁。",
+      },
+    ],
+  },
   '2': {
     title: "随园食单",
     author: "袁枚",
@@ -55,7 +93,7 @@ const bookData: Record<string, any> = {
       background:
         "袁枚（1716-1797），字子才，号简斋，晚号随园老人，是清代著名的文学家、美食家。《随园食单》成书于乾隆五十七年（1792年），是袁枚晚年对其一生饮食经验的总结。",
       content:
-        "全书分为须知单、戒单、海鲜单、江鲜单、特牲单、杂牲单、羽族单、水族有鳞单、水族无鳞单、杂素单、小菜单、点心单、饭粥单和茶酒单等十四个部分，共收录了326种南北菜肴的制作方法。",
+        "全书分为须知单、戒单、海鲜单、江鲜单、特牲单、杂牲单、羽族单、水族有鳞单、水族无鳞单、杂素单、小菜单、点心单、饭粥单和茶酒单等十四个部分，共收录了326种南北菜肴的制作方法.",
       cultural:
         '《随园食单》不仅记录了菜肴的制作方法，更重要的是体现了中国传统饮食文化中"食不厌精，脍不厌细"的理念。',
       influence:
@@ -169,7 +207,7 @@ export default function BookDetailPage({ bookId, onNavigate }: BookDetailPagePro
           <div className="lg:col-span-1 space-y-6">
             <div className="bg-white rounded-lg shadow-md p-6">
               <img
-                src="/book_covers/01.jpeg"
+                src={book.cover}
                 alt={book.title}
                 className="w-full h-80 object-cover rounded-md mb-4"
               />
@@ -273,6 +311,18 @@ export default function BookDetailPage({ bookId, onNavigate }: BookDetailPagePro
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Reading Button */}
+          <div className="mt-8 text-center">
+            <button
+              onClick={() => {
+                window.location.href = `/reader/family-cookbook?pdf=/pdf_resources/02.pdf&ocr=/ocr_pages/02/page-1.md&page=2`;
+              }}
+              className="bg-red-900 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-800 transition-colors"
+            >
+              开始阅读
+            </button>
           </div>
         </div>
       </div>

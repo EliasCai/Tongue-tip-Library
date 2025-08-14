@@ -18,17 +18,88 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
   const [pdfText, setPdfText] = useState<string[]>([]);
   const [ocrPages, setOcrPages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [bookTitle, setBookTitle] = useState('');
+  const [currentOcrText, setCurrentOcrText] = useState(''); // 新增：当前页面的OCR文本
 
   
   const originalRef = useRef<HTMLDivElement>(null);
   const ocrRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // 根据bookId获取书籍配置
+  const getBookConfig = (id: string) => {
+    const configs: Record<string, { title: string; pdfPath: string; ocrBasePath: string; startPage: number }> = {
+      '1': {
+        title: '烹饪一斑',
+        pdfPath: '/pdf_resources/烹飪一斑.pdf',
+        ocrBasePath: '/ocr_pages/01/',
+        startPage: 1
+      },
+      'family-cookbook': {
+        title: '家庭食谱烹调法',
+        pdfPath: '/pdf_resources/02.pdf',
+        ocrBasePath: '/ocr_pages/02/',
+        startPage: 1
+      },
+      '4': {
+        title: '家庭食谱大全',
+        pdfPath: '/pdf_resources/04.pdf',
+        ocrBasePath: '/ocr_pages/04/',
+        startPage: 1
+      }
+    };
+    return configs[id] || configs['1']; // 默认返回烹饪一斑的配置
+  };
+
+  // 动态加载当前页面的OCR文本
+  const loadCurrentPageOcr = async (pageNumber: number) => {
+    try {
+      const bookConfig = getBookConfig(bookId);
+      let ocrBasePath = bookConfig.ocrBasePath;
+      
+      // 从URL参数获取OCR配置（优先级高于bookConfig）
+      const urlParams = new URLSearchParams(window.location.search);
+      const ocrParam = urlParams.get('ocr');
+      if (ocrParam) {
+        // 从ocr参数中提取基础路径
+        const match = ocrParam.match(/(.+?)page-\d+\.md$/);
+        if (match) {
+          ocrBasePath = match[1];
+        } else {
+          ocrBasePath = ocrParam.replace(/page-\d+\.md$/, '');
+        }
+      }
+      
+      // 关键：当前显示第N页时，加载page-(N-1).md文件
+      const ocrPageNumber = pageNumber - 1;
+      const response = await fetch(`${ocrBasePath}page-${ocrPageNumber}.md`);
+      
+      if (response.ok) {
+        const text = await response.text();
+        setCurrentOcrText(text || `第${pageNumber}页内容`);
+      } else {
+        setCurrentOcrText(`第${pageNumber}页内容（OCR文件未找到）`);
+      }
+    } catch (error) {
+      console.warn(`加载第${pageNumber}页OCR文本失败:`, error);
+      setCurrentOcrText(`第${pageNumber}页内容（加载失败）`);
+    }
+  };
+
   // PDF加载和处理 - 使用PDF.js CDN
   useEffect(() => {
     const loadPDF = async () => {
       try {
         setLoading(true);
+        
+        // 获取书籍配置
+        const bookConfig = getBookConfig(bookId);
+        setBookTitle(bookConfig.title);
+        
+        // 从URL参数获取配置（优先级高于bookId配置）
+        const urlParams = new URLSearchParams(window.location.search);
+        const pdfPath = urlParams.get('pdf') || bookConfig.pdfPath;
+        const initialPage = parseInt(urlParams.get('page') || '1', 10);
         
         // 动态加载PDF.js库
         const script = document.createElement('script');
@@ -48,13 +119,14 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
             resolve();
           };
         });
-        
+
         // 加载PDF文档
         const pdfjsLib = (window as any).pdfjsLib;
-        const loadingTask = pdfjsLib.getDocument('/pdf_resources/烹飪一斑.pdf');
+        const loadingTask = pdfjsLib.getDocument(pdfPath);
         const pdf = await loadingTask.promise;
         setPdfDoc(pdf);
-        
+        setCurrentPage(initialPage);
+
         // 提取所有页面的文本
         const texts: string[] = [];
         for (let i = 1; i <= pdf.numPages; i++) {
@@ -73,8 +145,8 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
         setPdfText(texts);
         setLoading(false);
         
-        // 加载OCR文本
-        loadOCRPages();
+        // 加载初始页面的OCR文本
+        loadCurrentPageOcr(initialPage);
         
       } catch (error) {
         console.error('加载PDF失败:', error);
@@ -87,47 +159,33 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
         setPdfText(fallbackContent);
         setLoading(false);
         
-        // 回退时也加载OCR文本
-        loadOCRPages();
+        // 回退时也加载初始页面的OCR文本
+        const bookConfig = getBookConfig(bookId);
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialPage = parseInt(urlParams.get('page') || '1', 10);
+        loadCurrentPageOcr(initialPage);
       }
     };
 
     loadPDF();
-  }, []);
+  }, [bookId]);
 
-  // 加载OCR文本
-  const loadOCRPages = async () => {
-    try {
-      const ocrTexts: string[] = [];
-      for (let i = 0; i < 70; i++) { // 假设最多70页
-        try {
-          const response = await fetch(`/ocr_pages/01/page-${i}.md`);
-          if (response.ok) {
-            const text = await response.text();
-            ocrTexts[i] = text || `第${i + 1}页内容`;
-          } else {
-            ocrTexts[i] = `第${i + 1}页内容`;
-          }
-        } catch (error) {
-          console.warn(`加载第${i}页OCR文本失败:`, error);
-          ocrTexts[i] = `第${i + 1}页内容`;
-        }
-      }
-      setOcrPages(ocrTexts);
-    } catch (error) {
-      console.error('加载OCR文本失败:', error);
-      // 回退到使用PDF文本
-      setOcrPages(pdfText);
+  // 当页面变化时，动态加载对应页面的OCR文本
+  useEffect(() => {
+    if (currentPage > 0 && !loading) {
+      loadCurrentPageOcr(currentPage);
     }
-  };
+  }, [currentPage, loading]);
+
+
 
   // 渲染PDF页面
-  const renderPDFPage = async (pageNum: number) => {
+  const renderPDFPage = async (pageNumber: number) => {
     if (!pdfDoc || !canvasRef.current) return;
 
     try {
       const pdfjsLib = (window as any).pdfjsLib;
-      const page = await pdfDoc.getPage(pageNum);
+      const page = await pdfDoc.getPage(pageNumber);
       const canvas = canvasRef.current;
       const context = canvas.getContext('2d');
       
@@ -154,7 +212,7 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
   }, [currentPage, pdfDoc, scale]);
 
   const originalPages = pdfText;
-  const totalPages = Math.max(pdfDoc ? pdfDoc.numPages : 0, ocrPages.length > 0 ? ocrPages.length : pdfText.length);
+  const totalPages = pdfDoc ? pdfDoc.numPages : pdfText.length;
 
   // 同步滚动
   const handleOriginalScroll = () => {
@@ -274,12 +332,12 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
   useEffect(() => {
     if ((window as any).difyChatbotConfig) {
       (window as any).difyChatbotConfig.systemVariables = {
-        book_context: `《民国烹饪一斑》第${currentPage}页`,
-        book_title: '民国烹饪一斑',
+        book_context: `《${bookTitle}》第${currentPage}页`,
+        book_title: bookTitle,
         current_page: currentPage.toString()
       };
     }
-  }, [currentPage]);
+  }, [currentPage, bookTitle]);
 
   return (
     <div className="h-screen bg-gray-100 flex flex-col">
@@ -293,7 +351,7 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
             <ChevronLeft className="h-5 w-5" />
             <span>返回</span>
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">民国烹饪一斑</h1>
+          <h1 className="text-lg font-semibold text-gray-900">{bookTitle}</h1>
         </div>
 
         <div className="flex items-center space-x-4">
@@ -420,10 +478,10 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
       {/* 加载状态 */}
       {loading && (
         <div className="flex-1 flex items-center justify-center bg-white">
-          <div className="text-center">
-            <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4 animate-pulse" />
-            <p className="text-gray-600">正在加载《烹饪一斑》PDF...</p>
-          </div>
+                  <div className="text-center">
+          <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4 animate-pulse" />
+          <p className="text-gray-600">正在加载《{bookTitle}》PDF...</p>
+        </div>
         </div>
       )}
 
@@ -481,7 +539,7 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
             >
               <div className="max-w-2xl mx-auto">
                 <pre className="text-sm leading-relaxed whitespace-pre-wrap">
-                  {ocrPages[currentPage - 1]}
+                  {currentOcrText}
                 </pre>
               </div>
             </div>
@@ -543,7 +601,7 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
             >
               <div className="max-w-full mx-auto">
                 <pre className="text-xs leading-relaxed whitespace-pre-wrap">
-                  {ocrPages[currentPage - 1]}
+                  {currentOcrText}
                 </pre>
               </div>
             </div>
