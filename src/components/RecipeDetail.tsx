@@ -499,7 +499,7 @@ const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipeId, onNavigate }) => 
     ...zaoDiLiRecipe
   } : {
     ...recipe,
-    method: typeof recipe.method === 'string' ? recipe.method.split('。').filter(s => s.trim()) : [recipe.method]
+    method: typeof recipe.method === 'string' ? recipe.method.split('。').filter(s => s.trim()) : recipe.method
   };
 
   return (
