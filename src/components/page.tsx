@@ -8,7 +8,7 @@ const bookData: Record<string, any> = {
     title: "烹饪一斑",
     author: "钱寿卢",
     year: "1935",
-    cover: "https://img1.doubanio.com/view/subject/s/public/s29875942.jpg",
+    cover: "public/book_covers/01.jpeg",
     category: "民国烹饪教材 / 饮食文化",
     publisher: "中华书局",
     pages: "268页",

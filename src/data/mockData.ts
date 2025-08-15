@@ -7,7 +7,7 @@ export const mockBooks: Book[] = [
     author: '钱寿卢',
     year: '1935',
     description: '民国时期系统烹饪教材，融合传统中式技艺与早期西餐制法，收录326种菜式、女性私房秘方及罕见民国食品成分表。',
-    coverImage: 'https://img1.doubanio.com/view/subject/s/public/s29875942.jpg',
+    coverImage: 'public/book_covers/01.jpeg',
     tags: ['民国教材', '中西融合', '女性秘方', '营养学', '江南菜系'],
     content: '全书八章：首章论食物与人体健康；二三章述蔬菜、果实腌、糟、酱、干诸法；四章专讲海参、鱼翅等海味烹制；五章为实验菜谱，含苏州沈慧梅茶烧肉、福建蒋揖兰醉朱蚶等女性家传方；六章介绍牛排、牛肉蛋卷等西餐制法；七章食器选择与保养；八章附民国营养成分分析表。'
   },
