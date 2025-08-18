@@ -105,11 +105,13 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
         const script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
         script.async = true;
+        script.id = 'pdfjs-script';
         document.head.appendChild(script);
         
         const workerScript = document.createElement('script');
         workerScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
         workerScript.async = true;
+        workerScript.id = 'pdfjs-worker-script';
         document.head.appendChild(workerScript);
         
         await new Promise<void>((resolve) => {
@@ -168,6 +170,42 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
     };
 
     loadPDF();
+    
+    // 清理函数
+    return () => {
+      // 清理动态添加的脚本
+      const pdfScript = document.getElementById('pdfjs-script');
+      const workerScript = document.getElementById('pdfjs-worker-script');
+      
+      if (pdfScript && pdfScript.parentNode) {
+        try {
+          pdfScript.parentNode.removeChild(pdfScript);
+        } catch (error) {
+          console.warn('清理PDF.js脚本失败:', error);
+        }
+      }
+      
+      if (workerScript && workerScript.parentNode) {
+        try {
+          workerScript.parentNode.removeChild(workerScript);
+        } catch (error) {
+          console.warn('清理PDF.js worker脚本失败:', error);
+        }
+      }
+      
+      // 清理AI助手的iframe
+      const aiContainer = document.getElementById('ai-chat-container');
+      if (aiContainer) {
+        try {
+          const iframe = aiContainer.querySelector('iframe');
+          if (iframe && iframe.parentNode) {
+            iframe.parentNode.removeChild(iframe);
+          }
+        } catch (error) {
+          console.warn('清理AI助手iframe失败:', error);
+        }
+      }
+    };
   }, [bookId]);
 
   // 当页面变化时，动态加载对应页面的OCR文本
