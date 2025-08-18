@@ -83,6 +83,7 @@ function FoodTimeMapContent() {
   // 不再需要 map 和 selectedRestaurant 的 state，因为地图实例由 useEffect 内部管理
   const [mapLoading, setMapLoading] = useState(true);
   const [mapError, setMapError] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<string>('全部');
 
   useEffect(() => {
     console.log('FoodTimeMap useEffect 执行');
@@ -131,6 +132,9 @@ function FoodTimeMapContent() {
           resizeEnable: true,
         });
         console.log('地图实例创建成功');
+        
+        // 清除之前的标记
+        mapInstance.clearMap();
 
         // 4. 创建信息窗口
         const infoWindow = new window.AMap.InfoWindow({
@@ -140,30 +144,32 @@ function FoodTimeMapContent() {
         });
 
         // 5. 添加餐馆标记
-        restaurantData.forEach(restaurant => {
-          const [lng, lat] = restaurant.location.split(',').map(Number);
-          const marker = new window.AMap.Marker({
-            position: [lng, lat],
-            icon: new window.AMap.Icon({
-              size: new window.AMap.Size(32, 32),
-              image: typeIcons[restaurant.type] || typeIcons['上海菜'],
-              imageSize: new window.AMap.Size(32, 32),
-            }),
-          });
+        restaurantData
+          .filter(restaurant => selectedType === '全部' || restaurant.type === selectedType)
+          .forEach(restaurant => {
+            const [lng, lat] = restaurant.location.split(',').map(Number);
+            const marker = new window.AMap.Marker({
+              position: [lng, lat],
+              icon: new window.AMap.Icon({
+                size: new window.AMap.Size(32, 32),
+                image: typeIcons[restaurant.type] || typeIcons['上海菜'],
+                imageSize: new window.AMap.Size(32, 32),
+              }),
+            });
 
-          marker.on('click', () => {
-            infoWindow.setContent(`
-              <div style="font-family: 'Microsoft YaHei', sans-serif; padding: 5px;">
-                <h4 style="margin: 0 0 8px 0; font-size: 16px;">${restaurant.name}</h4>
-                <p style="margin: 0 0 4px 0;"><strong>地址：</strong> ${restaurant.address}</p>
-                <p style="margin: 0;"><strong>菜系：</strong> ${restaurant.type}</p>
-              </div>
-            `);
-            infoWindow.open(mapInstance, marker.getPosition());
-          });
+            marker.on('click', () => {
+              infoWindow.setContent(`
+                <div style="font-family: 'Microsoft YaHei', sans-serif; padding: 5px;">
+                  <h4 style="margin: 0 0 8px 0; font-size: 16px;">${restaurant.name}</h4>
+                  <p style="margin: 0 0 4px 0;"><strong>地址：</strong> ${restaurant.address}</p>
+                  <p style="margin: 0;"><strong>菜系：</strong> ${restaurant.type}</p>
+                </div>
+              `);
+              infoWindow.open(mapInstance, marker.getPosition());
+            });
 
-          mapInstance.add(marker);
-        });
+            mapInstance.add(marker);
+          });
         
         // 点击地图空白处时关闭信息窗口
         mapInstance.on('click', () => {
@@ -194,7 +200,7 @@ function FoodTimeMapContent() {
         mapInstance = null; // 确保垃圾回收
       }
     };
-  }, []); // 空依赖数组，确保 effect 只在挂载和卸载时运行一次
+  }, [selectedType]); // 依赖 selectedType，当菜系选择变化时重新执行
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '800px' }}>
@@ -215,14 +221,37 @@ function FoodTimeMapContent() {
           borderRadius: '6px',
           padding: '10px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-          zIndex: 1000
+          zIndex: 1000,
+          maxHeight: '400px',
+          overflowY: 'auto'
       }}>
           <h4 style={{marginTop: 0, marginBottom: '8px'}}>菜系图例</h4>
+          <div style={{ marginBottom: '8px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginBottom: '6px' }}>
+              <input
+                type="radio"
+                name="restaurantType"
+                value="全部"
+                checked={selectedType === '全部'}
+                onChange={(e) => setSelectedType(e.target.value)}
+                style={{ marginRight: '6px' }}
+              />
+              <span>全部菜系</span>
+            </label>
+          </div>
           {Object.entries(typeIcons).map(([type, iconUrl]) => (
-            <div key={type} style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
+            <label key={type} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginBottom: '6px' }}>
+              <input
+                type="radio"
+                name="restaurantType"
+                value={type}
+                checked={selectedType === type}
+                onChange={(e) => setSelectedType(e.target.value)}
+                style={{ marginRight: '6px' }}
+              />
               <img src={iconUrl} alt={type} style={{ width: '20px', height: '20px', marginRight: '6px' }} />
               <span>{type}</span>
-            </div>
+            </label>
           ))}
       </div>
     </div>
