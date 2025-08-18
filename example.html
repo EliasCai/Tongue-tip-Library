@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>杭州美食地图</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body, #map { height: 100%; margin: 0; padding: 0; }
+    .amap-info-content { font-size: 14px; }
+    .legend {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 6px;
+      padding: 10px;
+      box-shadow: 02px 8px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+    .legend-item { display: flex; align-items: center; margin-bottom: 6px; }
+    .legend-icon { width: 20px; height: 20px; margin-right: 6px; }
+    .marker-label {
+      font-size: 16px;
+      color: #fff;
+      background: rgba(34,34,34,0.75);
+      border-radius: 6px;
+      padding: 2px 10px;
+      box-shadow: 02px 8px rgba(0,0,0,0.15);
+      white-space: nowrap;
+      transition: background 0.2s;
+      border: none;
+    }
+    .marker-label-hover {
+      background: rgba(34,34,34,0.95);
+      color: #ffe58f;
+      border: none;
+    }
+    /* 强制覆盖高德地图label的蓝色边框和背景 */
+    .amap-marker-label {
+      border: none !important;
+      box-shadow: none !important;
+      background: none !important;
+      padding: 0 !important;
+    }
+    .filter-panel {
+      position: absolute;
+      top: 40px;
+      right: 20px;
+      width: 220px;
+      background: rgba(255,255,255,0.97);
+      border-radius: 10px;
+      box-shadow: 02px 16px rgba(0,0,0,0.13);
+      padding: 18px 18px 12px 18px;
+      z-index: 1200;
+      font-family: 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+      font-size: 15px;
+      color: #222;
+      transition: box-shadow 0.2s;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .filter-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .filter-section { margin-bottom: 14px; }
+    .filter-label { font-size: 14px; margin-bottom: 6px; color: #666; }
+    .filter-recommend label, .filter-category label {
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .filter-category {
+      max-height: 280px;
+      overflow-y: auto;
+      border-radius: 6px;
+      background: #f7f7f7;
+      padding: 6px 4px 4px 8px;
+      border: 1px solid #eee;
+    }
+    .filter-category label { width: 120px; }
+    .filter-panel input[type="checkbox"] {
+      accent-color: #1890ff;
+      margin-right: 3px;
+      vertical-align: middle;
+    }
+  </style>
+  <!-- 高德地图 JS API -->
+  <script src="https://webapi.amap.com/maps?v=2.0&key=「你的高德 apikey」"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="legend" id="legend"></div>
+  <div id="filter-panel" class="filter-panel">
+    <div class="filter-title">杭州美食指南</div>
+    <div class="filter-section">
+      <div class="filter-label">推荐指数</div>
+      <div class="filter-recommend">
+        <label><input type="checkbox" name="recommend" value="5"> 5星</label>
+        <label><input type="checkbox" name="recommend" value="4"> 4星</label>
+        <label><input type="checkbox" name="recommend" value="3"> 3星</label>
+        <label><input type="checkbox" name="recommend" value="2"> 2星</label>
+        <label><input type="checkbox" name="recommend" value="1"> 1星</label>
+      </div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-label">餐厅类别</div>
+      <div class="filter-category" id="filter-category-list"></div>
+    </div>
+  </div>
+  <script>
+    // 餐厅数据直接嵌入或读取同级目录下文件都可
+    const data =  [
+  {
+    "name": "如*餐厅",
+    "type": "中餐厅",
+    "location": "120.122175,30.253356",
+    "address": "玉泉路1*号",
+    "photo": "http://store.is.autonavi.com/showpic/b08795ab6adeba25a0115d74130862aa",
+    "cost": "",
+    "open_time": "11:30-14:00 17:30-21:00",
+    "rating": "4.7",
+    "phone": "",
+    "advantage": "推荐理由 xxxx",
+    "recommend_index": "5",
+    "category": "中餐"
+  },
+  {
+    "name": "杭州**湖四季酒店金沙厅",
+    "type": "浙江菜",
+    "location": "120.129637,30.251887",
+    "address": "灵隐路5号杭州**湖四季酒店1层(近曲院风荷)",
+    "photo": "http://store.is.autonavi.com/showpic/03f435393b04359460529d3cc484e826",
+    "cost": "533.00",
+    "open_time": "11:30-14:00 17:30-21:00",
+    "rating": "4.8",
+    "phone": "",
+    "advantage": "推荐理由 xxxx",
+    "recommend_index": "5",
+    "category": "杭帮菜/浙江菜"
+  },
+  {
+    "name": "门没锁咖啡馆",
+    "type": "咖啡馆",
+    "location": "120.099355,30.297518",
+    "address": "政紫弄23幢**号沿街(**地铁站F口步行210米)",
+    "photo": "https://aos-comment.amap.com/B0KUPD8084/comment/A241830B_F0B4_4496_A253_95A1F5385C51_L0_001_1500_2000_1735672012627_76019873.jpg",
+    "cost": "",
+    "open_time": "10:00-17:00",
+    "rating": "4.3",
+    "phone": "",
+    "advantage": "推荐理由 xxxx",
+    "recommend_index": "4",
+    "category": "咖啡馆"
+  }
+  {
+    "name": "helloworld",
+    "type": "咖啡馆",
+    "location": "120.005480,30.280547",
+    "address": "欧美金融城西溪丽晶居*幢底商1-13号",
+    "photo": "http://store.is.autonavi.com/showpic/72efe174477c732d4264f7373dfaf768",
+    "cost": "30.00",
+    "open_time": "08:00-18:00",
+    "rating": "4.3",
+    "phone": "",
+    "advantage": "推荐理由 xxxx",
+    "recommend_index": "4",
+    "category": "咖啡馆"
+  }
+];
+    // 图标映射表，按最新icon.txt
+    const typeIcons = {
+      '辣椒': '「需要自己准备」',
+      '甜点': '「需要自己准备」',
+      '咖啡': '「需要自己准备」',
+      '中餐': '「需要自己准备」',
+      '日料': '「需要自己准备」',
+      '快餐': '「需要自己准备」',
+      '烤肉': '「需要自己准备」',
+      '烧烤': '「需要自己准备」',
+      '星星': '「需要自己准备」',
+      '火锅': '「需要自己准备」',
+      '牛排': '「需要自己准备」',
+      '面食': '「需要自己准备」',
+      '海鲜': '「需要自己准备」',
+      '韩餐': '「需要自己准备」',
+      '小吃': '「需要自己准备」',
+      '粤菜': '「需要自己准备」',
+      'default': '「需要自己准备」'
+    };
+    // 图例分类，按icon.txt顺序
+    const legendTypes = [
+      {type: '中餐', label: '中餐/杭帮菜/其他'},
+      {type: '粤菜', label: '粤菜'},
+      {type: '辣椒', label: '川菜'},
+      {type: '火锅', label: '火锅'},
+      {type: '烧烤', label: '烧烤'},
+      {type: '烤肉', label: '烤肉'},
+      {type: '日料', label: '日料'},
+      {type: '韩餐', label: '韩餐'},
+      {type: '牛排', label: '西餐'},
+      {type: '面食', label: '面馆/面食'},
+      {type: '小吃', label: '小吃'},
+      {type: '甜点', label: '甜品/饮品'},
+      {type: '咖啡', label: '咖啡馆'},
+      {type: '快餐', label: '快餐'},
+      {type: '海鲜', label: '海鲜'}
+    ];
+    // category到icon的映射规则
+    function getCategoryIcon(category){
+      if (!category) return typeIcons['default'];
+      if (category === '中餐' || category === '杭帮菜/浙江菜' || category === '湘菜' || category === '东北菜' || category === '素食' || category === '私房菜') return typeIcons['中餐'];
+      if (category === '粤菜') return typeIcons['粤菜'];
+      if (category === '川菜') return typeIcons['辣椒'];
+      if (category === '火锅') return typeIcons['火锅'];
+      if (category === '烧烤/烤肉') return typeIcons['烤肉'];
+      if (category === '烧烤') return typeIcons['烧烤'];
+      if (category === '日料') return typeIcons['日料'];
+      if (category === '韩餐') return typeIcons['韩餐'];
+      if (category === '西餐') return typeIcons['牛排'];
+      if (category === '面馆') return typeIcons['面食'];
+      if (category === '小吃') return typeIcons['小吃'];
+      if (category === '甜品/饮品') return typeIcons['甜点'];
+      if (category === '咖啡馆') return typeIcons['咖啡'];
+      if (category === '快餐') return typeIcons['快餐'];
+      if (category === '海鲜') return typeIcons['海鲜'];
+      return typeIcons['default'];
+    }
+    
+    // 初始化地图
+    constmap = new AMap.Map('map', {
+      center: [120.15507, 30.274085], // 杭州中心
+      zoom: 12
+    });
+    // 移除所有 data.forEach(...) 相关的marker渲染，只保留 renderMarkers() 控制
+    // ... existing code ...
+    // 图例渲染
+    const legend = document.getElementById('legend');
+    legend.innerHTML = legendTypes.map(t =>
+      `<div class="legend-item"><img class='legend-icon' src='${typeIcons[t.type]}' alt='${t.label}' />${t.label}</div>`
+    ).join('');
+    // InfoWindow全局变量
+    let infoWindow = null;
+    // label样式
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .marker-label {
+        font-size: 16px;
+        color: #fff;
+        background: rgba(34,34,34,0.75);
+        border-radius: 6px;
+        padding: 2px 10px;
+        box-shadow: 02px 8px rgba(0,0,0,0.15);
+        white-space: nowrap;
+        transition: background 0.2s;
+        border: none;
+      }
+      .marker-label-hover {
+        background: rgba(34,34,34,0.95);
+        color: #ffe58f;
+        border: none;
+      }
+      /* 强制覆盖高德地图label的蓝色边框和背景 */
+      .amap-marker-label {
+        border: none !important;
+        box-shadow: none !important;
+        background: none !important;
+        padding: 0 !important;
+      }
+    `;
+    document.head.appendChild(style);
+    // 动态生成类别筛选项
+    const allCategories = Array.from(new Set(data.map(d => d.category).filter(Boolean)));
+    const filterCategoryList = document.getElementById('filter-category-list');
+    filterCategoryList.innerHTML = allCategories.map(cat =>
+      `<label><input type='checkbox' name='category' value='${cat}'> ${cat}</label>`
+    ).join('');
+    // 默认勾选5星
+    document.querySelector('input[name="recommend"][value="5"]').checked = true;
+
+    // 筛选逻辑
+    function getSelectedRecommends() {
+      return Array.from(document.querySelectorAll('input[name="recommend"]:checked')).map(i => i.value);
+    }
+    function getSelectedCategories(){
+      return Array.from(document.querySelectorAll('input[name="category"]:checked')).map(i => i.value);
+    }
+    let allMarkers = [];
+    function renderMarkers(){
+      // 清除旧marker
+      allMarkers.forEach(m => m.setMap(null));
+      allMarkers = [];
+      const selectedRecommends = getSelectedRecommends();
+      const selectedCategories = getSelectedCategories();
+      let filtered = data;
+      // 取交集策略：都选了才展示
+      if (selectedRecommends.length) {
+        filtered = filtered.filter(d => selectedRecommends.includes(d.recommend_index));
+      }
+      if (selectedCategories.length) {
+        filtered = filtered.filter(d => selectedCategories.includes(d.category));
+      }
+      // 如果都没选，展示全部
+      if (!selectedRecommends.length && !selectedCategories.length) {
+        filtered = data;
+      }
+      filtered.forEach(item => {
+        if (!item.location) return;
+        const [lng, lat] = item.location.split(',').map(Number);
+        const iconUrl = getCategoryIcon(item.category);
+        const marker = new AMap.Marker({
+          position: [lng, lat],
+          icon: new AMap.Icon({
+            image: iconUrl,
+            size: new AMap.Size(32, 32),
+            imageSize: new AMap.Size(32, 32)
+          }),
+          title: item.name,
+          offset: new AMap.Pixel(-16, -36),
+          label: {
+            content: `<span class='marker-label'>${item.name}</span>`,
+            direction: 'top',
+            offset: new AMap.Pixel(0, -16),
+            clickable: true
+          }
+        });
+        marker.on('mouseover', () => marker.setLabel({ ...marker.getLabel(), content: `<span class='marker-label marker-label-hover'>${item.name}</span>` }));
+        marker.on('mouseout', () => marker.setLabel({ ...marker.getLabel(), content: `<span class='marker-label'>${item.name}</span>` }));
+        marker.on('click', () => showInfo(item));
+        marker.on('labelClick', () => showInfo(item));
+        marker.setMap(map);
+        allMarkers.push(marker);
+      });
+    }
+    // 监听筛选项变化
+    document.querySelectorAll('.filter-panel input[type="checkbox"]').forEach(input => {
+      input.addEventListener('change', renderMarkers);
+    });
+    // 初始化时渲染一次
+    renderMarkers();
+
+    function showInfo(item){
+      // 关闭已有 infoWindow
+      if (infoWindow) {
+        infoWindow.close();
+      }
+      // 构建详情内容
+      const content = `
+        <div style="min-width:220px;max-width:320px;">
+          <div style="font-size:18px;font-weight:bold;margin-bottom:6px;">${item.name}</div>
+          <div style="margin-bottom:4px;">${item.address ? '📍 ' + item.address : ''}</div>
+          ${item.photo ? `<img src="${item.photo}" style="width:100%;max-height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;">` : ''}
+          <div>类型：${item.category || item.type || ''}</div>
+          <div>推荐指数：${item.recommend_index || ''}</div>
+          <div>评分：${item.rating || ''}</div>
+          <div>人均：${item.cost ? '￥' + item.cost : ''}</div>
+          <div>营业时间：${item.open_time || ''}</div>
+          <div>电话：${item.phone || ''}</div>
+          <div style="margin-top:4px;">${item.advantage || ''}</div>
+        </div>
+      `;
+      // 取坐标
+      const [lng, lat] = item.location.split(',').map(Number);
+      infoWindow = new AMap.InfoWindow({
+        content,
+        offset: new AMap.Pixel(0, -36)
+      });
+      infoWindow.open(map, [lng, lat]);
+    }
+
+    // 点击地图空白处关闭详情弹窗
+    map.on('click', function() {
+      if (infoWindow) infoWindow.close();
+    });
+  </script>
+</body>
+</html>
