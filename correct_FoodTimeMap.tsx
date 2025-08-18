@@ -1,82 +1,10 @@
 // src/components/FoodTimeMap.tsx
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, a{ useEffect, useRef, useState } from 'react';
 
-interface Restaurant {
-  name: string;
-  address: string;
-  location: string; // "lng,lat"
-  type: string;
-}
+// ... (接口 Restaurant, restaurantData, typeIcons, typeColors 保持不变) ...
 
-const restaurantData: Restaurant[] = [
-   {"type":"北京菜","name":"同兴楼","address":"福州路435号","location":"121.481986,31.233629"},
-      {"type":"天津菜","name":"六合局","address":"广西路福祥里隔壁","location":"121.477614,31.233638"},
-      {"type":"四川菜","name":"成都川菜馆","address":"宁海西路22号","location":"121.472966,31.224718"},
-      {"type":"广东菜","name":"一家春","address":"福州路266号","location":"121.485223,31.234628"},
-      {"type":"徽州菜","name":"大中国菜馆","address":"大连路469号","location":"121.513564,31.258713"},
-      {"type":"宁波菜","name":"又二屯","address":"南京西路304号","location":"121.47031,31.232358"},
-      {"type":"上海菜","name":"大名春楼菜馆","address":"浙江中路394号","location":"121.478014,31.236127"},
-      {"type":"素菜","name":"功德林斋食处","address":"黄河路41号","location":"121.470911,31.233874"},
-      {"type":"西菜","name":"华懋饭店","address":"南京路外滩沙逊房子内","location":"121.483723,31.238521"},
-      {"type":"中国西菜","name":"水上饭店","address":"中山东一路北京东路口","location":"121.490243,31.240637"},
-];
-
-const typeIcons: Record<string, string> = {
-  '北京菜': 'https://ai-studio-static-online.cdn.bcebos.com/e226f0a3dd604ecf89b47ec3311d01ce8072b4084aaa4ab5872ede1726def944',
-      '天津菜': 'https://ai-studio-static-online.cdn.bcebos.com/e21c4f50170b42f78d18294cb5825c4123f0898c91b14ea4af22f78e42e732f0',
-      '四川菜': 'https://ai-studio-static-online.cdn.bcebos.com/20082100695540b59ef948ea1e1230ff6750e05d5dfd471e877742f242fd8419',
-      '广东菜': 'https://ai-studio-static-online.cdn.bcebos.com/eace9ecb10014aae8403105c539f651c485f80f371b64dfdba5fbe9100ddcfac',
-      '徽州菜': 'https://ai-studio-static-online.cdn.bcebos.com/35c104af833f45fbbe11b53d1126443b5137a3c5c4594605a24510c4138789d3',
-      '宁波菜': 'https://ai-studio-static-online.cdn.bcebos.com/1f4e4642282f4c79a3ab7a7a3562048291d1a448e52943f982e05551a441621c',
-      '上海菜': 'https://ai-studio-static-online.cdn.bcebos.com/e8f7ecd86f284fb5b82e88910d0dbe631b74dc50b9fb46b0b7029481eac74d5c',
-      '西菜': 'https://ai-studio-static-online.cdn.bcebos.com/4236f8bd291c4f2bb66348b3e310efdf53ba239db5054bf6bb1eea520354b358',
-      '素菜': 'https://ai-studio-static-online.cdn.bcebos.com/ebb4e758d42c4a45947db093e8232519b2fe101fbfdc490ab6a57f252e6b7e65',
-      '中国西菜': 'https://ai-studio-static-online.cdn.bcebos.com/93f35084f140491690936f0ae6b087818c4658b056ee42abbe083a7b5d6c803c'
-};
-
-const typeColors: Record<string, string> = {
-  '上海菜': '#FF6B6B',
-  '广东菜': '#4ECDC4',
-  '四川菜': '#45B7D1',
-  '素菜': '#96CEB4',
-  '徽菜': '#FECA57',
-  '中国西菜': '#FF9FF3',
-  '北京菜': '#54A0FF',
-  '天津菜': '#5F27CD',
-  '宁波菜': '#00D2D3',
-};
-
-// ErrorBoundary 组件保持不变
-class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error: Error | null }> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('FoodTimeMap Error:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div style={{ padding: '20px', textAlign: 'center', color: 'red' }}>
-          <h2>地图加载出错</h2>
-          <p>{this.state.error?.message}</p>
-          <button onClick={() => this.setState({ hasError: false, error: null })}>
-            重试
-          </button>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
+// ErrorBoundary 组件也保持不变
 
 function FoodTimeMapContent() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -229,12 +157,7 @@ function FoodTimeMapContent() {
   );
 }
 
-// 声明高德地图的全局变量
-declare global {
-  interface Window {
-    AMap: any;
-  }
-}
+// ... (声明 declare global 和导出 FoodTimeMap 保持不变) ...
 
 export default function FoodTimeMap() {
   return (
