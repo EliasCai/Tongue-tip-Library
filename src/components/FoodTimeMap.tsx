@@ -85,6 +85,30 @@ function FoodTimeMapContent() {
   const [mapLoading, setMapLoading] = useState(true);
   const [mapError, setMapError] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string>('全部');
+  const [introData, setIntroData] = useState<Record<string, string>>({});
+  const [currentIntro, setCurrentIntro] = useState<string>('');
+
+  useEffect(() => {
+    // 加载intro.json数据
+    fetch('/intro.json')
+      .then(response => response.json())
+      .then(data => {
+        setIntroData(data);
+        setCurrentIntro(data['全部菜系'] || '加载中...');
+      })
+      .catch(error => {
+        console.error('加载intro.json失败:', error);
+        setCurrentIntro('《大上海指南》（1947，王昌年著）以珍贵文献视角，揭示彼时上海作为"味觉联合国"的独特地位');
+      });
+  }, []);
+
+  useEffect(() => {
+    // 根据选择的菜系更新文本内容
+    if (introData && Object.keys(introData).length > 0) {
+      const introText = introData[selectedType === '全部' ? '全部菜系' : selectedType];
+      setCurrentIntro(introText || '暂无相关介绍');
+    }
+  }, [selectedType, introData]);
 
   useEffect(() => {
     let mapInstance: any = null;
@@ -302,8 +326,8 @@ function FoodTimeMapContent() {
         flexShrink: 0,
         zIndex: 10
       }}>
-        <p style={{ margin: 0, fontSize: '16px', color: '#333' }}>
-          《大上海指南》（1947，王昌年著）以珍贵文献视角，揭示彼时上海作为"味觉联合国"的独特地位
+        <p style={{ margin: 0, fontSize: '16px', color: '#333', lineHeight: '1.5' }}>
+          {currentIntro}
         </p>
       </div>
 
