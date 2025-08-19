@@ -10,16 +10,88 @@ interface Restaurant {
 }
 
 const restaurantData: Restaurant[] = [
-    {"type":"北京菜","name":"同兴楼","address":"福州路435号","location":"121.481986,31.233629"},
-    {"type":"天津菜","name":"六合局","address":"广西路福祥里隔壁","location":"121.477614,31.233638"},
-    {"type":"四川菜","name":"成都川菜馆","address":"宁海西路22号","location":"121.472966,31.224718"},
-    {"type":"广东菜","name":"一家春","address":"福州路266号","location":"121.485223,31.234628"},
-    {"type":"徽州菜","name":"大中国菜馆","address":"大连路469号","location":"121.513564,31.258713"},
-    {"type":"宁波菜","name":"又二屯","address":"南京西路304号","location":"121.47031,31.232358"},
-    {"type":"上海菜","name":"大名春楼菜馆","address":"浙江中路394号","location":"121.478014,31.236127"},
-    {"type":"素菜","name":"功德林斋食处","address":"黄河路41号","location":"121.470911,31.233874"},
-    {"type":"西菜","name":"华懋饭店","address":"南京路外滩沙逊房子内","location":"121.483723,31.238521"},
-    {"type":"中国西菜","name":"水上饭店","address":"中山东一路北京东路口","location":"121.490243,31.240637"},
+     {"type":"北京菜","name":"同兴楼","address":"福州路435号","location":"121.481986,31.233629"},
+      {"type":"北京菜","name":"悦宾楼","address":"湖北路215号","location":"121.480302,31.233912"},
+      {"type":"北京菜","name":"会宾楼","address":"福州路419号","location":"121.482369,31.234044"},
+      {"type":"北京菜","name":"致美楼","address":"福州路519号","location":"121.480605,31.233343"},
+      {"type":"天津菜","name":"六合局","address":"广西路福祥里隔壁","location":"121.477614,31.233638"},
+      {"type":"天津菜","name":"三和楼","address":"云南南路13号","location":"121.479738,31.228803"},
+      {"type":"天津菜","name":"青萍园","address":"云南南路305号","location":"121.48256,31.225227"},
+      {"type":"四川菜","name":"成都川菜馆","address":"宁海西路22号","location":"121.472966,31.224718"},
+      {"type":"四川菜","name":"南海花园","address":"南京西路830号","location":"121.467247,31.231172"},
+      {"type":"四川菜","name":"蜀腴川菜馆","address":"广西北路295号","location":"121.477167,31.234549"},
+      {"type":"四川菜","name":"聚丰园川菜馆","address":"广西北路234号","location":"121.477722,31.233137"},
+      {"type":"四川菜","name":"洁而精川菜馆","address":"兴安路135号","location":"121.471016,31.220962"},
+      {"type":"四川菜","name":"锦江川菜馆","address":"宁海西路31号","location":"121.472966,31.224718"},
+      {"type":"广东菜","name":"一家春","address":"福州路266号","location":"121.485223,31.234628"},
+      {"type":"广东菜","name":"大三元","address":"南京路677号","location":"121.470773,31.232453"},
+      {"type":"广东菜","name":"大东酒楼","address":"南京路625号","location":"121.470708,31.232439"},
+      {"type":"广东菜","name":"杏花楼","address":"福州路343号","location":"121.484144,31.234114"},
+      {"type":"广东菜","name":"金门大酒店","address":"南京西路104号","location":"121.472522,31.234147"},
+      {"type":"广东菜","name":"京华酒楼","address":"福州路623号","location":"121.478925,31.232289"},
+      {"type":"广东菜","name":"东亚又一楼","address":"南京东路先施公司","location":"121.477072,31.234663"},
+      {"type":"广东菜","name":"南国酒楼","address":"云南路366号","location":"121.482646,31.224314"},
+      {"type":"广东菜","name":"南华酒楼","address":"南京东路715号","location":"121.477072,31.234663"},
+      {"type":"广东菜","name":"美心酒楼","address":"陕西南路304号","location":"121.461798,31.207557"},
+      {"type":"广东菜","name":"美华酒楼","address":"南京西路吴江路15号","location":"121.463883,31.230694"},
+      {"type":"广东菜","name":"万寿山","address":"西藏中路220号","location":"121.475371,31.232186"},
+      {"type":"广东菜","name":"新新酒楼","address":"南京东路720号","location":"121.477072,31.234663"},
+      {"type":"广东菜","name":"新雅酒楼","address":"南京东路719号","location":"121.477072,31.234663"},
+      {"type":"广东菜","name":"醉乐园","address":"金陵东路376号","location":"121.482316,31.228086"},
+      {"type":"广东菜","name":"乐园酒楼","address":"凤阳路366号","location":"121.469042,31.233327"},
+      {"type":"徽州菜","name":"大中国菜馆","address":"大连路469号","location":"121.513564,31.258713"},
+      {"type":"徽州菜","name":"大有利菜馆","address":"安福路39号","location":"121.44732,31.214834"},
+      {"type":"徽州菜","name":"大富贵菜馆","address":"常德路706号","location":"121.44388,31.232218"},
+      {"type":"徽州菜","name":"大新楼菜馆","address":"西藏中路485号","location":"121.474491,31.235636"},
+      {"type":"徽州菜","name":"海华楼","address":"浙江北路270号","location":"121.47524,31.246245"},
+      {"type":"宁波菜","name":"又二屯","address":"南京西路304号","location":"121.47031,31.232358"},
+      {"type":"宁波菜","name":"大陆正興馆","address":"西藏中路67号","location":"121.478013,31.22964"},
+      {"type":"宁波菜","name":"茹长兴","address":"长沙路93号","location":"121.470626,31.236079"},
+      {"type":"宁波菜","name":"老同华楼","address":"九江路364号","location":"121.483129,31.235948"},
+  {"type":"宁波菜","name":"状元楼","address":"天津路441号","location":"121.478825,31.236413"},
+  {"type":"宁波菜","name":"甬江状元楼","address":"九江路529号","location":"121.480068,31.235024"},
+  {"type":"宁波菜","name":"集贤楼","address":"广东路374号","location":"121.484251,31.232643"},
+  {"type":"宁波菜","name":"复兴园","address":"广东路374号","location":"121.484251,31.232643"},
+  {"type":"宁波菜","name":"宁波沁社","address":"西藏中路142号","location":"121.477716,31.230761"},
+  {"type":"上海菜","name":"大名春楼菜馆","address":"浙江中路394号","location":"121.478014,31.236127"},
+  {"type":"上海菜","name":"上海老正兴","address":"九江路566号","location":"121.479381,31.234817"},
+  {"type":"上海菜","name":"正和馆","address":"安庆路481号","location":"121.475796,31.247401"},
+  {"type":"上海菜","name":"正兴菜馆","address":"河南中路565号","location":"121.483932,31.239984"},
+  {"type":"上海菜","name":"同华楼","address":"九江路281号","location":"121.484677,31.236393"},
+  {"type":"上海菜","name":"状元老正兴","address":"福州路680号","location":"121.478345,31.231843"},
+  {"type":"上海菜","name":"老正和菜馆","address":"广西北路207号","location":"121.477938,31.233011"},
+  {"type":"上海菜","name":"老正兴源记","address":"九江路300号","location":"121.484316,31.236306"},
+  {"type":"上海菜","name":"老正兴东记","address":"山东中路330号","location":"121.48409,31.236632"},
+  {"type":"上海菜","name":"老正兴馆","address":"福州路721号","location":"121.477335,31.231846"},
+  {"type":"上海菜","name":"梁园老正兴","address":"广西北路332号","location":"121.477042,31.235018"},
+  {"type":"素菜","name":"功德林斋食处","address":"黄河路41号","location":"121.470911,31.233874"},
+{"type":"素菜","name":"春风松月楼","address":"湖北路193号","location":"121.480558,31.233647"},
+{"type":"素菜","name":"素春楼","address":"厦门路102号","location":"121.476476,31.239673"},
+{"type":"素菜","name":"聚源斋","address":"湖北路90号","location":"121.481441,31.232135"},
+{"type":"素菜","name":"龙兴斋","address":"芝罘路159号","location":"121.474438,31.237671"},
+{"type":"素菜","name":"觉林","address":"林森中路254号","location":"121.016158,30.888288"},
+{"type":"西菜","name":"华懋饭店","address":"南京路外滩沙逊房子内","location":"121.483723,31.238521"},
+{"type":"西菜","name":"都城饭店","address":"江西路福州路角","location":"121.482468,31.233819"},
+{"type":"西菜","name":"沧州饭店","address":"南京西路1225号","location":"121.454122,31.226639"},
+{"type":"西菜","name":"汇中饭店","address":"南京东路3号","location":"121.477072,31.234663"},
+{"type":"西菜","name":"礼查饭店","address":"中正东一路7号","location":"121.287296,31.114386"},
+{"type":"西菜","name":"麦瑞饭店","address":"南京东路102号","location":"121.477072,31.234663"},
+{"type":"西菜","name":"国际饭店","address":"南京西路跑马厅旁","location":"121.455774,31.227623"},
+{"type":"西菜","name":"沙利文饭店","address":"南京东路107号","location":"121.477072,31.234663"},
+{"type":"中国西菜","name":"水上饭店","address":"中山东一路北京东路口","location":"121.490243,31.240637"},
+{"type":"中国西菜","name":"一品香大旅社","address":"西藏中路270号","location":"121.474916,31.233072"},
+{"type":"中国西菜","name":"一家春番菜社","address":"福州路266号","location":"121.485223,31.234628"},
+{"type":"中国西菜","name":"上海西菜社","address":"广东路150号","location":"121.488322,31.233513"},
+{"type":"中国西菜","name":"大西洋西菜社","address":"福州路701号","location":"121.477544,31.231892"},
+{"type":"中国西菜","name":"大西洋饭店","address":"北京西路1182号","location":"121.452719,31.229429"},
+{"type":"中国西菜","name":"大来饭店","address":"南京西路1257号","location":"121.455759,31.227014"},
+{"type":"中国西菜","name":"中央西菜社","address":"福州路730号","location":"121.477097,31.23214"},
+{"type":"中国西菜","name":"印度吖喱饭店","address":"福州路711号","location":"121.477444,31.231872"},
+{"type":"中国西菜","name":"东亚酒楼","address":"南京东路690号","location":"121.477072,31.234663"},
+{"type":"中国西菜","name":"晋隆西菜社","address":"西藏中路400号","location":"121.474982,31.235651"},
+{"type":"中国西菜","name":"新利查番菜社","address":"广西北路164号","location":"121.479489,31.232254"},
+{"type":"中国西菜","name":"荣康中西菜社","address":"华山路1号","location":"121.444849,31.223637"},
+{"type":"中国西菜","name":"福来犹太咖喱鸡饭店","address":"广西北路159号","location":"121.479675,31.232196"},
 ];
 
 const typeIcons: Record<string, string> = {
@@ -260,6 +332,46 @@ function FoodTimeMapContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [scale, setScale] = useState(1);
+  const [labelData, setLabelData] = useState<Record<string, string>>({});
+  const galleryRef = useRef<HTMLDivElement>(null);
+
+  const galleryImages = [
+    'page-001.png', 'page-129.png', 'page-130.png', 'page-131.png', 'page-132.png',
+    'page-133.png', 'page-134.png', 'page-135.png', 'page-136.png', 'page-137.png',
+    'page-138.png', 'page-139.png', 'page-140.png', 'page-141.png', 'page-142.png'
+  ];
+
+  // 加载label.json数据
+  useEffect(() => {
+    fetch('/label.json')
+      .then(res => res.json())
+      .then(data => setLabelData(data))
+      .catch(err => console.error('加载label.json失败:', err));
+  }, []);
+
+  // 根据菜系选择高亮对应图片
+  useEffect(() => {
+    if (Object.keys(labelData).length === 0) return;
+
+    const typeKey = selectedType === '全部' ? '全部菜系' : selectedType;
+    const targetImage = labelData[typeKey];
+    
+    if (targetImage) {
+      const imageName = targetImage.split('/').pop() || '';
+      const index = galleryImages.findIndex(img => img === imageName);
+      
+      if (index !== -1) {
+        setCurrentImageIndex(index);
+        // 滚动到对应图片
+        if (galleryRef.current) {
+          const imageElements = galleryRef.current.querySelectorAll('img');
+          if (imageElements[index]) {
+            imageElements[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      }
+    }
+  }, [selectedType, labelData, galleryImages]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -306,12 +418,6 @@ function FoodTimeMapContent() {
     const delta = e.deltaY > 0 ? -0.1 : 0.1;
     setScale(prevScale => Math.max(0.5, Math.min(3, prevScale + delta)));
   };
-
-  const galleryImages = [
-    'page-001.png', 'page-129.png', 'page-130.png', 'page-131.png', 'page-132.png',
-    'page-133.png', 'page-134.png', 'page-135.png', 'page-136.png', 'page-137.png',
-    'page-138.png', 'page-139.png', 'page-140.png', 'page-141.png', 'page-142.png'
-  ];
 
   return (
     <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -373,14 +479,16 @@ function FoodTimeMapContent() {
         </div>
         
         {/* 右侧竖排相册 - Flex子项 */}
-        <div style={{
-          width: '300px',
-          backgroundColor: '#f5f5f5',
-          borderLeft: '1px solid #ddd',
-          overflowY: 'auto', // 内容超出时，自动显示滚动条
-          padding: '10px'
-          // 移除了 height: '100%'
-        }}>
+        <div 
+          ref={galleryRef}
+          style={{
+            width: '300px',
+            backgroundColor: '#f5f5f5',
+            borderLeft: '1px solid #ddd',
+            overflowY: 'auto', // 内容超出时，自动显示滚动条
+            padding: '10px'
+            // 移除了 height: '100%'
+          }}>
           <h4 style={{ marginTop: 0, marginBottom: '10px', textAlign: 'center' }}>图片相册</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {galleryImages.map((image, index) => (
@@ -391,10 +499,20 @@ function FoodTimeMapContent() {
                 style={{
                   width: '100%', height: 'auto', cursor: 'pointer',
                   borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                  transition: 'transform 0.2s ease'
+                  transition: 'transform 0.2s ease, border 0.2s ease',
+                  border: currentImageIndex === index ? '3px solid #007bff' : '3px solid transparent',
+                  transform: currentImageIndex === index ? 'scale(1.05)' : 'scale(1)'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                onMouseEnter={(e) => {
+                  if (currentImageIndex !== index) {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (currentImageIndex !== index) {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }
+                }}
                 onClick={() => handleImageClick(image)}
               />
             ))}
