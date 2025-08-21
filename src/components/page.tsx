@@ -179,7 +179,7 @@ const bookData: Record<string, any> = {
     title: "本心斋蔬食谱及其他二种",
     author: "陈达叟 / 林洪 / 贾铭",
     year: "1936",
-    cover: "public/book_covers/01.jpeg",
+    cover: "public/book_covers/05.jpeg",
     category: "古籍影印 · 素食文化 · 山居饮食 · 食疗养生",
     publisher: "商务印书馆",
     pages: "156页",

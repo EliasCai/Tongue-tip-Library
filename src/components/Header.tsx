@@ -33,9 +33,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             </button>
             
             <button
-              onClick={() => onNavigate('reader')}
+              onClick={() => onNavigate('featured-books')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                currentPage === 'reader'
+                currentPage === 'featured-books'
                   ? 'bg-red-700 text-white'
                   : 'text-red-200 hover:text-white hover:bg-red-700'
               }`}
