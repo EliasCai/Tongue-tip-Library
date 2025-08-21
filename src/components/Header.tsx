@@ -68,17 +68,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               <span>寻味菜谱</span>
             </button>
             
-            <button
-              onClick={() => onNavigate('knowledge')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                currentPage === 'knowledge'
-                  ? 'bg-red-700 text-white'
-                  : 'text-red-200 hover:text-white hover:bg-red-700'
-              }`}
-            >
-              <Users className="h-5 w-5" />
-              <span>知识图谱</span>
-            </button>
+
           </nav>
         </div>
       </div>

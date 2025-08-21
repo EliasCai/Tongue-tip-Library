@@ -16,13 +16,13 @@ const RecipeOverview: React.FC<RecipeOverviewProps> = ({ onNavigate, onRecipeCli
 
   // 主题推荐标签
   const themeTags = [
-    { label: '探秘总统府的餐桌', type: 'weekly' },
-    { label: '粤', type: 'cuisine' },
-    { label: '川', type: 'cuisine' },
-    { label: '鲁', type: 'cuisine' },
-    { label: '苏', type: 'cuisine' },
-    { label: '随园食单', type: 'source' },
-    { label: '秋日蟹宴', type: 'seasonal' }
+    { label: '民国江南风味', type: 'era' },
+    { label: '传统腌制技艺', type: 'technique' },
+    { label: '药膳养生', type: 'category' },
+    { label: '烹饪一斑', type: 'source' },
+    { label: '江南菜', type: 'cuisine' },
+    { label: '传统仿制菜', type: 'category' },
+    { label: '素食精作', type: 'category' }
   ];
 
   // 地区数据

@@ -509,11 +509,11 @@ const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipeId, onNavigate }) => 
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <button
-              onClick={() => onNavigate('home')}
+              onClick={() => onNavigate('recipes')}
               className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
-              <span>返回首页</span>
+              <span>返回菜谱</span>
             </button>
             <h1 className="text-2xl font-bold text-gray-900">菜谱详情</h1>
             <div className="w-20"></div>
