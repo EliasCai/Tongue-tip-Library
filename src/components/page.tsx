@@ -84,7 +84,7 @@ const bookData: Record<string, any> = {
     title: "美味烹调食谱秘典",
     author: "李克明",
     year: "1948",
-    cover: "https://img1.doubanio.com/view/subject/s/public/s29875942.jpg",
+    cover: "public/book_covers/04.jpeg",
     category: "民国食谱 · 家常烹饪 · 传统技艺 · 中西融合 · 饮食文化",
     publisher: "上海大方书局",
     pages: "141页",
@@ -113,7 +113,7 @@ const bookData: Record<string, any> = {
     title: "美味烹调食谱秘典",
     author: "李克明",
     year: "民国三十七年（1948年）二月再版",
-    cover: "https://example.com/cover.jpg",
+    cover: "public/book_covers/04.jpeg",
     category: "中华传统烹饪 / 家常菜系 / 民国食谱",
     publisher: "上海大方书局",
     pages: "141页",
@@ -148,30 +148,43 @@ const bookData: Record<string, any> = {
     ],
   },
   '4': {
-    title: "家庭食谱大全",
-    author: "李公朴",
-    year: "1928",
-    cover: "https://img4.doubanio.com/view/subject/s/public/s29875945.jpg",
-    category: "家庭烹饪",
-    publisher: "商务印书馆",
-    pages: "320页",
-    description: "民国时期流行的家庭烹饪指南，包含中西各式菜肴做法，适合家庭日常使用。",
+    title: "随园食单",
+    author: "袁枚（清）",
+    year: "1792 年（乾隆壬子镌）",
+    cover: "public/book_covers/04.jpeg",
+    category: "江南菜系 / 饮食文化",
+    publisher: "民国书局（影印本）",
+    pages: "268页",
+    description: "清代\"食神\"袁枚用 326 道菜谱写成的\"生活美学圣经\"，至今仍被名厨奉为案头秘笈。",
     interpretation: {
       background:
-        "本书是民国时期为适应现代家庭生活需要而编写的实用烹饪指南，融合了中西烹饪技法。",
+          "乾隆年间，随园主人袁枚以四十年口腹交游所得，撰成 14 卷《随园食单》。全书从\"须知单\"\"戒单\"入手，先讲选材、火候、器具、礼仪，再分门别类收录江鲜、海鲜、特牲、杂牲、羽族、水族、素食、点心、茶酒等 326 种做法。",
       content:
-        "收录了适合家庭制作的各类菜肴，包括中式传统菜、西式简餐、点心制作等，图文并茂。",
+        "文字清雅如小品，方法详尽如教科书，既写\"味\"，也写\"道\"，被誉为\"中国最早的饮食百科全书\"。",
+
       cultural:
-        "体现了民国时期中西文化交融的特点，反映了现代家庭对饮食的新需求。",
+        "提出\"食不厌精，脍不厌细\"的实践标准，奠定江南菜\"清鲜平和\"的审美基调，开启\"文人写食\"传统。",
+
       influence:
-        "对现代家庭烹饪产生了深远影响，许多做法至今仍在使用。",
+        "书中\"火候论\"\"搭配论\"仍被各大烹饪院校列为必修课；纪录片《舌尖》《风味人间》多次引用其观点。",
+
     },
-    rating: 4.6,
+    rating: 4.8,
     reviews: [
       {
-        user: "家庭主妇",
+        user: "清河鱼",
         rating: 5,
-        comment: "非常实用的家庭烹饪指南，做法详细易懂。",
+        comment: "看完才知道，古人涮火锅、吃刺身、做分子料理一样没落下！",
+      },
+      {
+        user: "米果",
+        rating: 4,
+        comment: "最打动我的是'戒单'：戒耳餐、戒目食、戒暴殄——原来美食家首先是生活家。",
+      },
+      {
+        user: "厨房学徒",
+        rating: 5,
+        comment: "按图索骥做了'芙蓉肉''蜜火腿'，真的零失败！268 页里全是干货。",
       },
     ],
   },
