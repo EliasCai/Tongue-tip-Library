@@ -54,45 +54,7 @@ export const mockBooks: Book[] = [
 ];
 
 export const mockRecipes: Recipe[] = [
-  {
-    id: '1',
-    name: '樱桃肉',
-    description: '色泽红亮，入口即化，乃淮扬菜之精品',
-    ingredients: ['猪肉', '樱桃', '料酒', '生抽', '冰糖'],
-    method: '选用五花肉，切成方块，先用料酒腌制，再以冰糖调色，慢火焖煮至软糯',
-    source: '《家庭食谱大全》',
-    era: '民国二十三年',
-    region: 'jiangsu',
-    cuisine: '苏菜',
-    views: 1250,
-    createdAt: '2024-01-15',
-  },
-  {
-    id: '2',
-    name: '太史蛇羹',
-    description: '广东名菜，汤清味鲜，营养丰富',
-    ingredients: ['蛇肉', '冬菇', '冬笋', '火腿', '鸡蛋'],
-    method: '蛇肉切丝，与冬菇、冬笋同煮，调味后勾芡',
-    source: '《随园食单》',
-    era: '民国时期',
-    region: 'guangdong',
-    cuisine: '粤菜',
-    views: 890,
-    createdAt: '2024-01-20',
-  },
-  {
-    id: '3',
-    name: '蛋菰法',
-    description: '民国时期经典西式蛋类料理，融合中西烹饪技艺的精致菜品',
-    ingredients: ['鸡蛋', '牛酪（黄油）', '熏肉', '荷兰芹'],
-    method: '将蛋破开，倒入涂有牛酪的磁皿中调和，挂于炉上烤至蛋白凝结、蛋黄半熟，加入熏肉牛酪混合物，最后撒上荷兰芹',
-    source: '《民国食谱精选》',
-    era: '民国二十五年',
-    region: 'shanghai',
-    cuisine: '海派',
-    views: 567,
-    createdAt: '2024-01-25',
-  },
+  
   {
       id: '4',
       name: '伏姜',

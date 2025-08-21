@@ -92,7 +92,9 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
             精选民国菜谱
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
-            {mockRecipes.map((recipe) => (
+            {mockRecipes
+              .filter(recipe => ['11', '10', '12', '15'].includes(recipe.id))
+              .map((recipe) => (
               <div key={recipe.id} className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="flex items-start justify-between mb-4">
                   <h3 className="text-2xl font-bold text-red-900">{recipe.name}</h3>
