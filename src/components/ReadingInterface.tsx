@@ -41,6 +41,12 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
         ocrBasePath: '/ocr_pages/02/',
         startPage: 1
       },
+      '3': {
+        title: '美味烹调食谱秘典',
+        pdfPath: '/pdf_resources/04.pdf',
+        ocrBasePath: '/ocr_pages/04/',
+        startPage: 1
+      },
       '4': {
         title: '家庭食谱大全',
         pdfPath: '/pdf_resources/04.pdf',

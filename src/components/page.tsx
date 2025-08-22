@@ -151,7 +151,7 @@ const bookData: Record<string, any> = {
     title: "随园食单",
     author: "袁枚（清）",
     year: "1792 年（乾隆壬子镌）",
-    cover: "public/book_covers/04.jpeg",
+    cover: "public/book_covers/06.jpeg",
     category: "江南菜系 / 饮食文化",
     publisher: "民国书局（影印本）",
     pages: "268页",
@@ -375,16 +375,7 @@ export default function BookDetailPage({ bookId, onNavigate }: BookDetailPagePro
           </div>
 
           {/* Reading Button */}
-          <div className="mt-8 text-center">
-            <button
-              onClick={() => {
-                window.location.href = `/reader/family-cookbook?pdf=/pdf_resources/02.pdf&ocr=/ocr_pages/02/page-1.md&page=2`;
-              }}
-              className="bg-red-900 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-800 transition-colors"
-            >
-              开始阅读
-            </button>
-          </div>
+          
         </div>
       </div>
     </div>
