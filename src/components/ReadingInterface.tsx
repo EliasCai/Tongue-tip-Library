@@ -348,6 +348,8 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
         chatbotToken = 'u3npcMPAlZeXAR4J';
       } else if (bookId === '4') {
         chatbotToken = 'bObzmfRyF6Z6wrbx';
+      } else if (bookId === '5') {
+        chatbotToken = 'Ahio3hL2fKdzFPKI';
       }
 
       // 创建iframe加载Dify聊天界面
@@ -396,6 +398,16 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
         }
       `;
     } else if (bookId === '4') {
+      style.textContent = `
+        #dify-chatbot-bubble-button {
+          background-color: #1C64F2 !important;
+        }
+        #dify-chatbot-bubble-window {
+          width: 24rem !important;
+          height: 40rem !important;
+        }
+      `;
+    } else if (bookId === '5') {
       style.textContent = `
         #dify-chatbot-bubble-button {
           background-color: #1C64F2 !important;
