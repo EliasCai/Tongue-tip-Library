@@ -52,6 +52,12 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
         pdfPath: '/pdf_resources/06.pdf',
         ocrBasePath: '/ocr_pages/06/',
         startPage: 1
+      },
+      '5': {
+        title: '本心斋蔬食谱及其他二种',
+        pdfPath: '/pdf_resources/05.pdf',
+        ocrBasePath: '/ocr_pages/05/',
+        startPage: 1
       }
     };
     return configs[id] || configs['1']; // 默认返回烹饪一斑的配置
