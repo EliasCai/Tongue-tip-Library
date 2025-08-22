@@ -344,6 +344,8 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
       let chatbotToken = 'f4q7tp0OTSNvOxr2'; // 默认token
       if (bookId === 'family-cookbook') {
         chatbotToken = '8XO14XJ7ZCVYKibv';
+      } else if (bookId === '3') {
+        chatbotToken = 'u3npcMPAlZeXAR4J';
       }
 
       // 创建iframe加载Dify聊天界面
@@ -372,6 +374,16 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
     style.id = 'dify-chatbot-styles';
     
     if (bookId === 'family-cookbook') {
+      style.textContent = `
+        #dify-chatbot-bubble-button {
+          background-color: #1C64F2 !important;
+        }
+        #dify-chatbot-bubble-window {
+          width: 24rem !important;
+          height: 40rem !important;
+        }
+      `;
+    } else if (bookId === '3') {
       style.textContent = `
         #dify-chatbot-bubble-button {
           background-color: #1C64F2 !important;
