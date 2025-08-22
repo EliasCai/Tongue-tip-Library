@@ -182,6 +182,7 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
     };
 
     loadPDF();
+    loadDifyStyles(); // 加载Dify聊天界面样式
     
     // 清理函数
     return () => {
@@ -215,6 +216,16 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
           }
         } catch (error) {
           console.warn('清理AI助手iframe失败:', error);
+        }
+      }
+
+      // 清理Dify样式
+      const difyStyles = document.getElementById('dify-chatbot-styles');
+      if (difyStyles && difyStyles.parentNode) {
+        try {
+          difyStyles.parentNode.removeChild(difyStyles);
+        } catch (error) {
+          console.warn('清理Dify样式失败:', error);
         }
       }
     };
@@ -329,9 +340,15 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
       // 如果已经加载iframe，直接返回
       if (aiContainer.querySelector('iframe')) return;
 
+      // 根据书籍ID选择不同的Dify聊天界面
+      let chatbotToken = 'f4q7tp0OTSNvOxr2'; // 默认token
+      if (bookId === 'family-cookbook') {
+        chatbotToken = '8XO14XJ7ZCVYKibv';
+      }
+
       // 创建iframe加载Dify聊天界面
       const iframe = document.createElement('iframe');
-      iframe.src = `https://udify.app/chatbot/f4q7tp0OTSNvOxr2`;
+      iframe.src = `https://udify.app/chatbot/${chatbotToken}`;
       iframe.style.width = '100%';
       iframe.style.height = '100%';
       iframe.style.border = 'none';
@@ -340,6 +357,36 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
       
       aiContainer.appendChild(iframe);
     }, 100);
+  };
+
+  // 加载Dify聊天界面的样式
+  const loadDifyStyles = () => {
+    // 移除可能存在的旧样式
+    const existingStyle = document.getElementById('dify-chatbot-styles');
+    if (existingStyle) {
+      existingStyle.remove();
+    }
+
+    // 创建新的样式元素
+    const style = document.createElement('style');
+    style.id = 'dify-chatbot-styles';
+    
+    if (bookId === 'family-cookbook') {
+      style.textContent = `
+        #dify-chatbot-bubble-button {
+          background-color: #1C64F2 !important;
+        }
+        #dify-chatbot-bubble-window {
+          width: 24rem !important;
+          height: 40rem !important;
+        }
+      `;
+    } else {
+      // 其他书籍使用默认样式
+      style.textContent = '';
+    }
+    
+    document.head.appendChild(style);
   };
 
   // 键盘快捷键
