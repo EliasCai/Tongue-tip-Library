@@ -355,6 +355,7 @@ const ReadingInterface: React.FC<ReadingInterfaceProps> = ({ bookId, onNavigate 
       // 创建iframe加载Dify聊天界面
       const iframe = document.createElement('iframe');
       iframe.src = `https://udify.app/chatbot/${chatbotToken}`;
+      // iframe.src = `https://1.95.183.104/chatbot/${chatbotToken}`;
       iframe.style.width = '100%';
       iframe.style.height = '100%';
       iframe.style.border = 'none';
